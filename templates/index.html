@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Automatic ECG Classification</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.4"
+      integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container my-4">
+      <h1 class="fs-1 fw-bold mb-4">ECG Annotation Tool</h1>
+      <div class="row">
+        <!-- class for form below-->
+        <!-- class="border border-2 p-3 m-3 rounded-3" -->
+        <form
+          class="card p-3 col-3"
+          id="form"
+          hx-post="/select"
+          hx-target="#heartbeats"
+          hx-encoding="multipart/form-data"
+        >
+          <!-- usia -->
+          <!-- <label for="usia" class="">Usia: </label> -->
+          <!-- <input -->
+          <!--   class="mb-2" -->
+          <!--   type="number" -->
+          <!--   name="usia" -->
+          <!--   id="usia" -->
+          <!--   placeholder="Usia" -->
+          <!--   required -->
+          <!-- /> -->
+          <label for="file" class="">Select ECG file:</label>
+          <input class="" type="file" name="file" id="file" required />
+          <br />
+          <!-- rename -->
+          <!-- <label for="nama" class="">Rename (optional):</label>
+          <input
+            class="mb-2"
+            type="text"
+            name="rename"
+            id="rename"
+            placeholder="(optional)"
+          /> -->
+          <!-- <label for="sample_rate" class="">Sample rate:</label> -->
+          <!-- <select class="" name="sample_rate" id="sample_rate"> -->
+          <!--   <option value="130">130 Hz (Polar H10)</option> -->
+          <!--   <option value="360">360 Hz (MIT-BIH)</option> -->
+          <!-- </select> -->
+          <!-- <br /> -->
+          <button class="btn btn-primary text-center" type="submit">
+            select
+            <div class="d-inline htmx-indicator">
+              <div class="spinner-grow spinner-grow-sm" role="status"></div>
+            </div>
+          </button>
+          <!-- <div id="inferenceTime"> -->
+          <!-- </div> -->
+        </form>
+      <!-- </div> -->
+      <!-- <div class="row mt-3"> -->
+        <div class="card col mx-3">
+          <div class="card-header">Heart Beats</div>
+          <div class="p-3">
+            <div id="heartbeats"></div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row mt-3">
+        <div class="card col-5" style="min-height: 10rem;">
+          <div class="card-header">Inference Result</div>
+          <div class="p-3">
+            <div id="result"></div>
+          </div>
+        </div>
+        <div class="card col mx-3" style="min-height: 10rem;">
+          <div class="card-header">Sample Plot</div>
+          <div class="p-3">
+            <div id="sampleplot"></div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </body>
+</html>

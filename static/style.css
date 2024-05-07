@@ -1,0 +1,18 @@
+#selectRecordForm {
+    display: flex;
+    gap: 2em;
+    height: 2em;
+}
+
+#selectRecordForm > form {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+#selectRecordForm > form > label {
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+
