@@ -1,0 +1,142 @@
+<div id="heartbeats" hx-swap-oob="true">
+  <script>
+    function samplePlot(elementId, j, index) {
+      var myChart = echarts.init(document.getElementById(elementId));
+      var option;
+      var ecgpData = j;
+      // ecg data = 360 ticks per second
+      // make array of times
+      var time = [];
+      // for (var i = 0; i < ecgpData.length; i++) {
+      //   time.push(i / 2)
+      // }
+
+      option = {
+        xAxis: {
+          type: "category",
+          // data: time,
+          splitLine: {
+            show: true,
+            interval: 10,
+          },
+        },
+        yAxis: {
+          type: "value",
+          //name: 'mV',
+        },
+        series: [
+          {
+            data: ecgpData,
+            type: "line",
+            symbol: "none",
+          },
+        ],
+        grid: {
+          left: 40,
+          //  top: 10,
+          right: 0,
+          //  bottom: 30
+        },
+        title: {
+          text: index,
+          // left: 'center',
+        },
+      };
+
+      myChart.setOption(option);
+    }
+  </script>
+  <div class="row">
+    {% for i in beats %} {% set outer_loop = loop %} {% if i[1]|length > 0 %}
+    <!-- <div class="horizontal-scrollable"> -->
+    <!-- <div class="row"> -->
+    <!-- make it responsive -->
+    <div class="p-2 border mb-2 col-12 col-md-6 col-lg-4 col-xl-3">
+      <div
+        id="sampleplot{{ outer_loop.index }}{{loop.index}}"
+        style="width: 100%; height: 250px"
+        class="p-0 m-0"
+      ></div>
+      <script>
+        samplePlot("sampleplot{{outer_loop.index}}{{loop.index}}", {{i[1] | tojson }}, {{i[0]}})
+      </script>
+      <!-- r_peak -->
+      R position: {{ r_peaks[outer_loop.index-1] }}
+      <div class="">
+        <!-- button to annotate the beat (N, S, V, F, or Q, and also clear button)-->
+        <div class="p-1 button-group d-flex gap-1">
+          {% set labels = ['N', 'S', 'V', 'F', 'Q', 'Clear'] %}
+          {% for label in labels %}
+          <form
+            hx-post="/annotate/{{ record_name }}"
+            hx-encoding="multipart/form-data"
+            hx-swap="outerHTML"
+            hx-target="closest .button-group"
+            hx-trigger="click"
+          >
+            <input type="hidden" name="index" value="{{ i[0] }}" />
+            <button
+              class="btn btn-primary {% if annotation[outer_loop.index-1] == label %}disabled btn-success{% endif %}"
+              name="label"
+              value="{{ label }}"
+              type="submit"
+            >
+              {{ label }}
+            </button>
+          </form>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+    {% endif %} {% endfor %}
+    <!-- pagination using htmx -->
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a
+                class="page-link {% if page == 1 %}disabled{% endif %}"
+                href="#"
+                aria-label="Previous"
+                hx-get="/record/{{ record_name }}?page={{ page-1 }}"
+                hx-trigger="click"
+                hx-target="#heartbeats"
+              >
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <!-- loop pagination -->
+            {% for i in range(1, total_pages+1) %}
+            <li class="page-item">
+              <a
+                class="page-link {% if page == i %}active{% endif %}"
+                href="#"
+                hx-get="/record/{{record_name}}?page={{ i }}"
+                hx-trigger="click"
+                hx-target="#heartbeats"
+                >{{ i }}</a
+              >
+            </li>
+            {% endfor %}
+            <li class="page-item">
+              <a
+                class="page-link {% if page == total_pages %}disabled{% endif %}"
+                href="#"
+                aria-label="Next"
+                hx-get="/record/{{ record_name }}?page={{ page+1 }}"
+                hx-trigger="click"
+                hx-target="#heartbeats"
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

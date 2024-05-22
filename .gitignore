@@ -3,3 +3,5 @@ data/*
 !data/data
 json_output/*
 csv_output/*
+cache/
+beats/

@@ -1,0 +1,22 @@
+<div class="p-1 button-group d-flex gap-1">
+  {% set labels = ['N', 'S', 'V', 'F', 'Q', 'Clear'] %}
+  {% for label in labels %}
+  <form
+    hx-post="/annotate/{{ record_name }}"
+    hx-encoding="multipart/form-data"
+    hx-swap="outerHTML"
+    hx-target="closest .button-group"
+    hx-trigger="click"
+  >
+    <input type="hidden" name="index" value="{{ index }}" />
+    <button
+      class="btn btn-primary {% if annotation == label %}disabled btn-success{% endif %}"
+      name="label"
+      value="{{ label }}"
+      type="submit"
+    >
+      {{ label }}
+    </button>
+  </form>
+  {% endfor %}
+</div>

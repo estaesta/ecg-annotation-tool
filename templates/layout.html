@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Automatic ECG Classification</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.4"
+      integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body class="min-vh-100">
+    <div class="mx-4 pt-4">
+      <h1 class="fs-1 fw-bold mb-4">ECG Annotation Tool</h1>
+      {% block content %}{% endblock %}
+      <!-- <div class="row mt-3">
+        <div class="card col-5" style="min-height: 10rem;">
+          <div class="card-header">Inference Result</div>
+          <div class="p-3">
+            <div id="result"></div>
+          </div>
+        </div>
+        <div class="card col mx-3" style="min-height: 10rem;">
+          <div class="card-header">Sample Plot</div>
+          <div class="p-3">
+            <div id="sampleplot"></div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div id="alert"></div>
+  </body>
+</html>
