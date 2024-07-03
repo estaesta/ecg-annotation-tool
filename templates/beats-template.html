@@ -67,6 +67,9 @@
         <div class="p-1 button-group d-flex gap-1">
           {% set labels = ['N', 'S', 'V', 'F', 'Q', 'Clear'] %}
           {% for label in labels %}
+          {% if label == 'Clear' %}
+          <div class="ms-auto">
+          {% endif %}
           <form
             hx-post="/annotate/{{ record_name }}"
             hx-encoding="multipart/form-data"
@@ -76,7 +79,9 @@
           >
             <input type="hidden" name="index" value="{{ i[0] }}" />
             <button
-              class="btn btn-primary {% if annotation[outer_loop.index-1] == label %}disabled btn-success{% endif %}"
+              class="btn btn-primary 
+                      {% if annotation[outer_loop.index-1] != 'Clear' and annotation[outer_loop.index-1] == label %}disabled btn-success{% endif %}"
+
               name="label"
               value="{{ label }}"
               type="submit"
@@ -84,6 +89,9 @@
               {{ label }}
             </button>
           </form>
+          {% if label == 'Clear' %}
+          </div>
+          {% endif %}
           {% endfor %}
         </div>
       </div>
